@@ -1,16 +1,14 @@
-import { useState } from "react";
+import useFetch from "../useFetch";
 import  BlogList from "./BlogList";
 
 const Home = () => {
-    //Each object represent a blog
-    const [blogs, setBlogs] = useState([
-        {title:'New blog site1', body:'aaaaaaa', author:'Avihay', id:1},
-        {title:'New blog site2', body:'bbbbbbb', author:'Noy', id:2},
-        {title:'New blog site3', body:'ccccccc', author:'Maman', id:3}
-    ]);
+    const {data, isPending, error} = useFetch('http://localhost:8200/blogs');
     return ( 
         <div className="home">
-            <BlogList blogs = {blogs} />
+            {error && <div>{error}</div>}
+            {isPending && <div>Loading</div>}
+            {/* The '&&' sign checked if the blogs is null. if yes, don't run the Bloglist component, otherwise yes. */}
+            {data && <BlogList blogs = {data} title="All Blogs"/>} 
         </div>
      );
 }
